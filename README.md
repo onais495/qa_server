@@ -26,4 +26,4 @@ What the pipeline will do:
 Builds the docker images for frontend, backend and nginx
 pushes the images to docker hub tagged with the git commit SHA
 SSHs into the QA server and pulls the latest images
-Runs docker compose up -d to deploy the updated containers
+Runs docker compose up -d to deploy the updated containers.
