@@ -1,0 +1,36 @@
+services:
+  frontend:
+    #Image is being sent from the github/workflows/dockerfile in deploy section
+    image: onais495/frontend:${IMAGE_TAG}
+    build: ./frontend
+    container_name: frontend
+    networks:
+      - qa-network
+  backend:
+    image: onais495/backend:${IMAGE_TAG}
+    build: ./backend
+    container_name: backend
+    networks:
+      - qa-network
+    healthcheck:
+    #the NET 10.0 framework defaults to prot 8080 so changing port from 5212 to 8080
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/api/ping"]
+      interval: 25s
+      timeout: 10s
+      retries: 3
+      
+  nginx:
+    image: onais495/nginx:${IMAGE_TAG}
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - qa-network
+
+networks:
+  qa-network:
+    driver: bridge
