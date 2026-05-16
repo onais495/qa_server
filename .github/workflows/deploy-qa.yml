@@ -58,7 +58,7 @@ jobs:
 
       - name: Deploy to QA VM
         run: |
-          ssh -i ~/.ssh/id_ed25519 ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} "
+          ssh -i ~/.ssh/id_ed25519 -p ${{ secrets.VM_PORT }} ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} "
             cd ~/qa_server &&
             export IMAGE_TAG=${{ needs.build-and-push.outputs.sha_short }} &&
             docker compose pull &&
